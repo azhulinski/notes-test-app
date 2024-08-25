@@ -51,7 +51,6 @@ app.on('activate', () => {
 });
 
 ipcMain.on('toggle:web-view', (event, message) => {
-    console.log(`https://${message}`);
     webView.setVisible(true);
     webView.webContents.loadURL(`https://${message}`)
 })
