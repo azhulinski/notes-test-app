@@ -2,7 +2,7 @@
   "name": "notes-test-app",
   "productName": "notes-test-app",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Test Electron Notes App",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
