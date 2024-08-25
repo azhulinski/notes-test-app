@@ -1,0 +1,65 @@
+.action-button {
+    margin-top: 1rem;
+}
+
+.left-side-main {
+    grid-area: left-side-main;
+    max-width: 75%;
+}
+
+.right-side-main {
+    grid-area: right-side-main;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.left-side-footer {
+    grid-area: left-side-footer;
+    max-width: 75%;
+}
+
+.right-side-footer {
+    grid-area: right-side-footer;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+    'left-side-main right-side-main'
+    'left-side-footer right-side-footer';
+    gap: 10px;
+    padding: 10px;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #bacdd8;
+    padding: 8px;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+}
+
+.card-url {
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    color: blue;
+}
+
+button {
+    background-color: #4f6861; /* Green */
+    border-radius: 4px;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #80ac9c;
+}

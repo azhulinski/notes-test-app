@@ -1,0 +1,11 @@
+# Dependency directories
+node_modules/
+
+# nuxt.js build output
+.nuxt
+
+# FuseBox cache
+.fusebox/
+
+# Webpack
+.webpack/
