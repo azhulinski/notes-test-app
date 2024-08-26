@@ -22,6 +22,12 @@ const App = () => {
         })
     }, [selected]);
 
+    useEffect(() => {
+        window.api.highlightSaved('text:saved', () => {
+            alert('highlights saved to file')
+        });
+    }, []);
+
     const toggleView = () => {
         window.api.openWebView('toggle:web-view', url)
     }
@@ -63,7 +69,7 @@ const App = () => {
                 </div>
             </div>
             <div className="left-side-footer">
-                {savedSelections.map((item, index) => (
+                {savedSelections.length > 0 ? savedSelections.map((item, index) => (
                     <Fragment key={index}>
                         <div className="card">
                             <div className="card-url">
@@ -74,8 +80,7 @@ const App = () => {
                             </div>
                         </div>
                     </Fragment>
-
-                ))}
+                )) : <h2>No highlights yet</h2>}
             </div>
         </div>
     )

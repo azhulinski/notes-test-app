@@ -8,6 +8,8 @@ export type ContextBridgeApi = {
 
     saveSelectedNotes(channel: string, message: string[]): void
 
+    highlightSaved(channel: string, listener: (event: IpcRendererEvent, message: string) => void): void
+
 }
 
 const api: ContextBridgeApi = {
@@ -21,6 +23,10 @@ const api: ContextBridgeApi = {
 
     saveSelectedNotes(channel: string, message: string[]) {
         ipcRenderer.send(channel, message)
+    },
+
+    highlightSaved(channel: string, listener: (event: IpcRendererEvent, message: string) => void) {
+        ipcRenderer.on(channel, listener)
     }
 }
 

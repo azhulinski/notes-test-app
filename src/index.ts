@@ -61,6 +61,18 @@ ipcMain.on('text:selected', (_, message) => {
 })
 
 ipcMain.on('save:selected', (_, message) => {
-    const jsonData = JSON.stringify(message)
-    fs.appendFileSync(path.join(__dirname, '../../stored/highlights.json'), jsonData);
+    let savedHighlights = [];
+    try {
+        savedHighlights = JSON.parse(fs.readFileSync(path.join(__dirname, '../../stored/highlights.json'), 'utf8'));
+    } catch (error) {
+        console.error(error);
+    }
+    savedHighlights.push(message)
+    const jsonData = JSON.stringify(savedHighlights)
+    try {
+        fs.writeFileSync(path.join(__dirname, '../../stored/highlights.json'), jsonData);
+        mainWindow.webContents.send('text:saved');
+    } catch (error) {
+        console.log(error);
+    }
 })
