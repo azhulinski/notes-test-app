@@ -5,22 +5,24 @@ const App = () => {
 
     const [url, setUrl] = useState("");
 
-    const [isCopyButtonActive, setIsCopyButtonActive] = useState(true);
-
-    const [selected, setSelected] = useState({});
-
     const [savedSelections, setSavedSelections] = useState([]);
+    const [toast, setToast] = useState("");
 
     useEffect(() => {
-        window.api.selectedMessage('text:selected', (_, message) => {
-            if (message) {
-                setIsCopyButtonActive(false);
-                setSelected(message);
-            } else {
-                setIsCopyButtonActive(true)
+        // Register a single listener that appends incoming highlights.
+        window.api.selectedMessage('highlight:add-direct', (_, message) => {
+            if (message && message.message) {
+                setSavedSelections((prev) => {
+                    const next = structuredClone(prev);
+                    next.push(message);
+                    return next;
+                });
+                // show visual feedback
+                setToast('Highlight added');
+                setTimeout(() => setToast(''), 2000);
             }
         })
-    }, [selected]);
+    }, []);
 
     useEffect(() => {
         window.api.highlightSaved('text:saved', () => {
@@ -31,20 +33,11 @@ const App = () => {
     const toggleView = () => {
         window.api.openWebView('toggle:web-view', url)
     }
-
-    const addSelected = () => {
-        const newList = structuredClone(savedSelections)
-        newList.push(selected)
-        setSavedSelections(newList)
-        setSelected({});
-    }
-
     const saveSelected = () => {
         window.api.saveSelectedNotes('save:selected', savedSelections)
     }
 
     const clearSelections = () => {
-        setSelected("");
         setSavedSelections([]);
     }
 
@@ -64,9 +57,7 @@ const App = () => {
                 <input type="text" onChange={(e) => setUrl(e.target.value)} value={url}
                        placeholder="input url address"/>
                 <button onClick={toggleView}>open web</button>
-                <div className="action-button">
-                    <button disabled={isCopyButtonActive} onClick={addSelected}>save highlight</button>
-                </div>
+
             </div>
             <div className="left-side-footer">
                 {savedSelections.length > 0 ? savedSelections.map((item, index) => (
@@ -75,6 +66,9 @@ const App = () => {
                             <div className="card-url">
                                 {item.url}
                             </div>
+                            <div className="card-title">
+                                {item.pageTitle}
+                            </div>
                             <div className="card-content">
                                 {item.message}
                             </div>
@@ -82,6 +76,7 @@ const App = () => {
                     </Fragment>
                 )) : <h2>No highlights yet</h2>}
             </div>
+            {toast && <div className={`toast ${toast ? 'show' : ''}`}>{toast}</div>}
         </div>
     )
 }

@@ -40,10 +40,24 @@
     margin-bottom: 0.5rem;
 }
 
+.card-content {
+    color: #333;
+    line-height: 1.4;
+    max-width: 75%;
+}
+
 .card-url {
     overflow: hidden;
     margin-bottom: 0.5rem;
     color: blue;
+    max-width: 75%;
+}
+
+.card-title {
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
     max-width: 75%;
 }
 
@@ -64,3 +78,30 @@ button {
 button:hover {
     background-color: #80ac9c;
 }
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.toast {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    z-index: 10002;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+    pointer-events: none;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+

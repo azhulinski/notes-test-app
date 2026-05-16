@@ -1,15 +1,19 @@
 import {contextBridge, ipcRenderer, IpcRendererEvent} from 'electron'
 
-export type ContextBridgeApi = {
+export type Highlight = {
+    message: string
+    pageTitle: string
+    url: string
+}
 
+export type ContextBridgeApi = {
     openWebView: (channel: string, message: string) => void
 
-    selectedMessage: (chanel: string, listener: (event: IpcRendererEvent, message: string) => void) => void
+    selectedMessage: (channel: string, listener: (event: IpcRendererEvent, message: Highlight) => void) => void
 
-    saveSelectedNotes(channel: string, message: string[]): void
+    saveSelectedNotes: (channel: string, message: Highlight[]) => void
 
-    highlightSaved(channel: string, listener: (event: IpcRendererEvent, message: string) => void): void
-
+    highlightSaved: (channel: string, listener: (event: IpcRendererEvent) => void) => void
 }
 
 const api: ContextBridgeApi = {
@@ -17,15 +21,15 @@ const api: ContextBridgeApi = {
         ipcRenderer.send(channel, message)
     },
 
-    selectedMessage: (chanel, listener) => {
-        ipcRenderer.on(chanel, listener)
+    selectedMessage: (channel, listener) => {
+        ipcRenderer.on(channel, listener as any)
     },
 
-    saveSelectedNotes(channel: string, message: string[]) {
+    saveSelectedNotes(channel: string, message: Highlight[]) {
         ipcRenderer.send(channel, message)
     },
 
-    highlightSaved(channel: string, listener: (event: IpcRendererEvent, message: string) => void) {
+    highlightSaved(channel: string, listener: (event: IpcRendererEvent) => void) {
         ipcRenderer.on(channel, listener)
     }
 }

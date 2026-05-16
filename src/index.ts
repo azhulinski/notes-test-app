@@ -31,6 +31,11 @@ const createWindow = (): void => {
     webView.setBounds({x: 602, y: 104, width: 400, height: 600})
     mainWindow.contentView.addChildView(webView);
 
+    webView.webContents.setWindowOpenHandler(({ url }) => {
+        webView.webContents.loadURL(url);
+        return { action: 'deny' };
+    });
+
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
 };
@@ -55,9 +60,12 @@ ipcMain.on('toggle:web-view', (event, message) => {
     webView.webContents.loadURL(`https://${message}`)
 })
 
-ipcMain.on('text:selected', (_, message) => {
-    const url = webView.webContents.getURL()
-    mainWindow.webContents.send('text:selected', {message, url});
+ipcMain.on('text:selected', (_, data) => {
+    mainWindow.webContents.send('text:selected', data);
+})
+
+ipcMain.on('highlight:add-direct', (_, data) => {
+    mainWindow.webContents.send('highlight:add-direct', data);
 })
 
 ipcMain.on('save:selected', (_, message) => {
